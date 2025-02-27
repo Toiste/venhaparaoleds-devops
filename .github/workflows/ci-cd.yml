@@ -81,9 +81,12 @@ jobs:
 
       - name: Construir imagem Docker
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/venhaparaoleds-devops/api:latest .
+          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t ghcr.io/$REPO_NAME/api:latest .
+
 
 
       - name: Publicar imagem no GitHub Packages
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/venhaparaoleds-devops/api:latest
+          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker push ghcr.io/$REPO_NAME/api:latest
