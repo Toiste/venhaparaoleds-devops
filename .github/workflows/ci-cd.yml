@@ -1,0 +1,88 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes
+        run: npm test
+
+  sonar:
+    needs: build
+    name: Verificar qualidade do código
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Analisar com SonarQube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonarqube-scanner \
+            -Dsonar.projectKey=Toiste_venhaparaoleds-devops \
+            -Dsonar.organization=toiste \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.sources=src \
+            -Dsonar.exclusions=**/node_modules/**, **/*.spec.js, **/*.test.js 
+
+      - name: Quebrar pipeline se qualidade for menor que 80%
+        run: |
+          QUALITY=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=Toiste_venhaparaoleds-devops" \
+            | jq -r '.projectStatus.status')
+
+          if [ "$QUALITY" != "OK" ]; then
+            echo "Qualidade abaixo do esperado. CI interrompido."
+            exit 1
+          fi
+
+  deploy:
+    needs: sonar
+    name: Publicar no GitHub Packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login no GitHub Packages
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Construir imagem Docker
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/api:latest .
+
+      - name: Publicar imagem no GitHub Packages
+        run: |
+          docker push ghcr.io/${{ github.repository }}/api:latest
