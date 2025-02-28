@@ -6,7 +6,7 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 ## 📑 Índice  
 
 - [📖 Visão Geral](#-visão-geral)
-- [📖 Check List do Desafio](#-visão-geral)
+- [📖 Check List do Desafio](#-check-list-do-desafio)
 - [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)  
 - [📂 Estrutura do Projeto](#-estrutura-do-projeto)  
 - [🔧 Configuração e Execução](#-configuração-e-execução)  
@@ -114,17 +114,17 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
    ```sh
    npm install
    ```
-**Passo a passo para criar e configurar o Banco de Dados / Etapa Opcional**
-3. **Crie uma imagem pro banco de dados com Docker:**
+3. **Passo a passo para criar e configurar o Banco de Dados / Etapa Opcional**
+***Crie uma imagem pro banco de dados com Docker:***
    ```sh
    docker pull postgres:latest
    ```
 
-**Crie e rode o Container pro banco de dados com Docker:**
+***Crie e rode o Container pro banco de dados com Docker:***
    ```sh
    docker run --name meu-postgres -e POSTGRES_USER=meu_usuario -e POSTGRES_PASSWORD=minha_senha -e POSTGRES_DB=meu_banco -p 5432:5432 -d postgres
    ```
-  ### explicação do comando
+  *** explicação do comando ***
   ```sh
   --name meu-postgres → Nome do container.
   -e POSTGRES_USER=meu_usuario → Define o usuário do banco.
