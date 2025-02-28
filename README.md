@@ -3,6 +3,20 @@
 ## 📖 Visão Geral
 Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos e candidatos. Permitindo a importação de arquivos, o armazenamento seguro dos dados em um banco PostgreSQL e a disponibilização de endpoints REST para consultas, abrangendo tanto os dados extraídos de arquivos .txt quanto aqueles armazenados no banco de dados.
 
+## 📑 Índice  
+
+- [📖 Visão Geral](#-visão-geral)
+- [📖 Check List do Desafio](#-visão-geral)
+- [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)  
+- [📂 Estrutura do Projeto](#-estrutura-do-projeto)  
+- [🔧 Configuração e Execução](#-configuração-e-execução)  
+- [🔍 Testes e Qualidade de Código](#-testes-e-qualidade-de-código)  
+- [🛠️ CI/CD](#-cicd)  
+- [📌 Endpoints da API](#-endpoints-da-api)  
+- [📜 Licença](#-licença)  
+- [📞 Contato](#-contato)  
+
+
 ## 📖 Check List do Desafio.
 ### A automação deve Realizar:
 - **Executar os testes automatizados** ✅
@@ -143,56 +157,56 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 📌 candidatoFile.test.js
 
 O que esse teste cobre?
-✅ Garante que um CPF válido retorna os concursos corretos
-✅ Testa um CPF que não tem concursos compatíveis
-✅ Verifica um candidato com múltiplas profissões e se ele retorna todos os concursos adequados
-✅ Mocka o readFileCandidatos para não precisar de um arquivo real
+- ✅ Garante que um CPF válido retorna os concursos corretos
+- ✅ Testa um CPF que não tem concursos compatíveis
+- ✅ Verifica um candidato com múltiplas profissões e se ele retorna todos os concursos adequados
+- ✅ Mocka o readFileCandidatos para não precisar de um arquivo real
 
 📌 concursoFile.test.js
 
 O que esse teste cobre?
-✅ Verifica se retorna os candidatos corretos para um concurso válido
-✅ Testa um código de concurso inexistente (deve retornar um array vazio)
-✅ Garante que apenas candidatos aptos, de acordo com as profissões exigidas, são retornados
-✅ Mocka readFileConcursos para evitar dependência de arquivos reais
+- ✅ Verifica se retorna os candidatos corretos para um concurso válido
+- ✅ Testa um código de concurso inexistente (deve retornar um array vazio)
+- ✅ Garante que apenas candidatos aptos, de acordo com as profissões exigidas, são retornados
+- ✅ Mocka readFileConcursos para evitar dependência de arquivos reais
 
 📌 candidatoBD.test.js
 
 O que esse teste cobre?
-✅ Garante que um CPF válido retorna os concursos corretos
-✅ Testa um CPF que não tem concursos compatíveis
-✅ Verifica se todas as vagas de um concurso são retornadas, não apenas as compatíveis com o candidato
-✅ Mocka o pool.query para evitar consultas reais ao banco de dados
-✅ Testa se a função trata corretamente um erro na consulta ao banco
+- ✅ Garante que um CPF válido retorna os concursos corretos
+- ✅ Testa um CPF que não tem concursos compatíveis
+- ✅ Verifica se todas as vagas de um concurso são retornadas, não apenas as compatíveis com o candidato
+- ✅ Mocka o pool.query para evitar consultas reais ao banco de dados
+- ✅ Testa se a função trata corretamente um erro na consulta ao banco
 
 📌 candidatoBD.test.js
 
 O que esse teste cobre?
 
-✅ Verifica se um CPF válido retorna os concursos corretos
-✅ Garante que a consulta ao banco de dados é chamada corretamente com o CPF fornecido
-✅ Testa um CPF que não possui concursos associados e espera uma lista vazia como retorno
-✅ Simula um erro na query do banco de dados e verifica se a exceção é tratada corretamente
-✅ Mocka a função pool.query para evitar chamadas reais ao banco de dados
+- ✅ Verifica se um CPF válido retorna os concursos corretos
+- ✅ Garante que a consulta ao banco de dados é chamada corretamente com o CPF fornecido
+- ✅ Testa um CPF que não possui concursos associados e espera uma lista vazia como retorno
+- ✅ Simula um erro na query do banco de dados e verifica se a exceção é tratada corretamente
+- ✅ Mocka a função pool.query para evitar chamadas reais ao banco de dados
 
 📌 fileReader.test.js
 
 O que esse teste cobre?
 
-✅ Verifica se o arquivo de candidatos é lido e processado corretamente
-✅ Verifica se o arquivo de concursos é lido e processado corretamente
-✅ Garante que um arquivo vazio retorna um array vazio
-✅ Testa a manipulação de entradas inválidas e garante que o retorno é adequado
-✅ Cria e remove arquivos temporários para garantir um ambiente de teste isolado
+- ✅ Verifica se o arquivo de candidatos é lido e processado corretamente
+- ✅ Verifica se o arquivo de concursos é lido e processado corretamente
+- ✅ Garante que um arquivo vazio retorna um array vazio
+- ✅ Testa a manipulação de entradas inválidas e garante que o retorno é adequado
+- ✅ Cria e remove arquivos temporários para garantir um ambiente de teste isolado
 
 📌 formatarData.test.js
 
 O que esse teste cobre?
 
-✅ Garante que a conversão de datas no formato "DD/MM/YYYY" para "YYYY-MM-DD" funciona corretamente
-✅ Verifica diferentes datas para assegurar a consistência da formatação
-✅ Garante que um erro é lançado para formatos de data inválidos
-✅ Testa o comportamento da função ao receber uma string vazia
+- ✅ Garante que a conversão de datas no formato "DD/MM/YYYY" para "YYYY-MM-DD" funciona corretamente
+- ✅ Verifica diferentes datas para assegurar a consistência da formatação
+- ✅ Garante que um erro é lançado para formatos de data inválidos
+- ✅ Testa o comportamento da função ao receber uma string vazia
 
 ### ✅ Executar Testes Automatizados
 ```sh
@@ -218,10 +232,31 @@ O projeto possui um pipeline configurado no **GitHub Actions** para:
 
 ## 📌 Endpoints da API
 
-### 📍 **Listar Concursos por CPF**
+### 📍 **Listar Candidatos por Código do Concurso**
 #### Endpoint de pesquisa dos Arquivos .txt
 ```http
 GET /concursos/:codigo
+```
+#### Exemplo de Resposta:
+```json
+[
+  {
+    "nome": "Darren Shields",
+    "dataNascimento": "15/07/1980",
+    "cpf": "125.478.963-12",
+    "profissoes": [
+      "carpinteiro",
+      "professor de matemática"
+    ]
+  }
+]
+
+```
+
+### 📍 **Listar Candidatos por Código do Concurso**
+#### Endpoint de pesquisa do banco de dados
+```http
+GET /concursos/bd/:codigo
 ```
 #### Exemplo de Resposta:
 ```json
@@ -253,26 +288,7 @@ GET /candidatos/:cpf
     "vagas": ["carpinteiro","analista de sistemas","marceneiro"]
   }
 ]
-```
 
-### 📍 **Listar Concursos por CPF**
-#### Endpoint de pesquisa do banco de dados
-```http
-GET /concursos/bd/:codigo
-```
-#### Exemplo de Resposta:
-```json
-[
-  {
-    "nome": "Darren Shields",
-    "dataNascimento": "15/07/1980",
-    "cpf": "125.478.963-12",
-    "profissoes": [
-      "carpinteiro",
-      "professor de matemática"
-    ]
-  }
-]
 ```
 
 ### 📍 **Listar Concursos por CPF**
