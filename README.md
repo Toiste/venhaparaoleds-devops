@@ -105,27 +105,26 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 ## 🔧 Configuração e Execução
 
 ### 📌 Configuração do Ambiente
-1. **Clone o repositório:**
+### 1. **Clone o repositório:**
    ```sh
    git clone https://github.com/Toiste/venhaparaoleds-devops.git
    cd venhaparaoleds-devops
    ```
-2. **Instale as dependências:**
+### 2. **Instale as dependências:**
    ```sh
    npm install
    ```
-3. **Passo a passo para criar e configurar o Banco de Dados / Etapa Opcional**
-  3.1 **Crie uma imagem pro banco de dados com Docker:**
+### 3 **Passo a passo para criar e configurar o Banco de Dados. | Etapa Opcional**
+#### 3.1 **Crie uma imagem pro banco de dados com Docker:**
    ```sh
    docker pull postgres:latest
    ```
-
-  3.2 **Crie e rode o Container pro banco de dados com Docker:**
+#### 3.2 **Crie e rode o Container pro banco de dados com Docker:**
    ```sh
    docker run --name meu-postgres -e POSTGRES_USER=meu_usuario -e POSTGRES_PASSWORD=minha_senha -e POSTGRES_DB=meu_banco -p 5432:5432 -d postgres
    ```
 
-4. **Configure as variáveis de ambiente:**
+### 4 **Configure as variáveis de ambiente:**
    edite o arquivo `.env example` renomeie para `.env` e defina os valores referentes ao seu banco, exemplo:
    ```sh
    DB_USER=postgres
@@ -135,7 +134,7 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
    DB_PORT=5432
    ```
 
-5. **Execute a API:**
+### 5 **Execute a API:**
    ```sh
    npm run server
    ```
@@ -309,7 +308,7 @@ jobs:
           docker push ghcr.io/$REPO_NAME/api:latest
 
 ```
-** O Código foi feito com os Seguintes Objetivos:
+**O Código foi feito com os Seguintes Objetivos:**
 
 1. **Executar testes automatizados**
 2. **Analisar a qualidade do código com SonarQube**
