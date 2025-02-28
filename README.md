@@ -115,25 +115,15 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
    npm install
    ```
 3. **Passo a passo para criar e configurar o Banco de Dados / Etapa Opcional**
-***Crie uma imagem pro banco de dados com Docker:***
+  3.1 **Crie uma imagem pro banco de dados com Docker:**
    ```sh
    docker pull postgres:latest
    ```
 
-***Crie e rode o Container pro banco de dados com Docker:***
+  3.2 **Crie e rode o Container pro banco de dados com Docker:**
    ```sh
    docker run --name meu-postgres -e POSTGRES_USER=meu_usuario -e POSTGRES_PASSWORD=minha_senha -e POSTGRES_DB=meu_banco -p 5432:5432 -d postgres
    ```
-  *** explicação do comando ***
-  ```sh
-  --name meu-postgres → Nome do container.
-  -e POSTGRES_USER=meu_usuario → Define o usuário do banco.
-  -e POSTGRES_PASSWORD=minha_senha → Define a senha do banco.
-  -e POSTGRES_DB=meu_banco → Nome do banco de dados que será criado automaticamente.
-  -p 5432:5432 → Mapeia a porta local 5432 para a do container.
-  -d postgres → Roda o container em segundo plano com a imagem postgres.
-
-  ```
 
 4. **Configure as variáveis de ambiente:**
    edite o arquivo `.env example` renomeie para `.env` e defina os valores referentes ao seu banco, exemplo:
@@ -222,7 +212,105 @@ npx sonarqube-scanner
 ---
 
 ## 🛠️ CI/CD
-O projeto possui um pipeline configurado no **GitHub Actions** para:
+O projeto possui um pipeline configurado no **GitHub Actions**:
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes
+        run: npm test
+
+  sonar:
+    needs: build
+    name: Verificar qualidade do código
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Analisar com SonarQube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonarqube-scanner \
+            -Dsonar.projectKey=Toiste_venhaparaoleds-devops \
+            -Dsonar.organization=toiste \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.sources=src \
+            -Dsonar.exclusions=**/node_modules/**, **/*.spec.js
+
+      - name: Quebrar pipeline se qualidade for menor que 80%
+        run: |
+          QUALITY=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=Toiste_venhaparaoleds-devops" \
+            | jq -r '.projectStatus.status')
+
+          if [ "$QUALITY" != "OK" ]; then
+            echo "Qualidade abaixo do esperado. CI interrompido."
+            exit 1
+          fi
+
+  deploy:
+    needs: sonar
+    name: Publicar no GitHub Packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login no GitHub Packages
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Construir imagem Docker
+        run: |
+          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t ghcr.io/$REPO_NAME/api:latest .
+
+
+
+      - name: Publicar imagem no GitHub Packages
+        run: |
+          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker push ghcr.io/$REPO_NAME/api:latest
+
+```
+** O Código foi feito com os Seguintes Objetivos:
+
 1. **Executar testes automatizados**
 2. **Analisar a qualidade do código com SonarQube**
 3. **Quebrar a pipeline se os testes falharem ou a qualidade for menor que 80%**
