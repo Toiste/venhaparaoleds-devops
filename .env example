@@ -1,0 +1,5 @@
+POSTGRES_HOST="seu host"
+POSTGRES_DB="seu banco"
+POSTGRES_USER='usario do banco'
+POSTGRES_PASSWORD="senha do banco"
+POSTGRES_PORT=5432

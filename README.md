@@ -1,104 +1,230 @@
-# Desafio DevOps - LEDS
-*Bem-vindo!* 👋
+# 📌 Documentação do Projeto
 
-Neste desafio, você terá a oportunidade de demonstrar que possui as habilidades necessárias para atuar no time de DevOps do laboratório.
+## 📖 Visão Geral
+Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos e candidatos. Permitindo a importação de arquivos, o armazenamento seguro dos dados em um banco PostgreSQL e a disponibilização de endpoints REST para consultas, abrangendo tanto os dados extraídos de arquivos .txt quanto aqueles armazenados no banco de dados.
 
-# Contextualização
+---
 
-O desafio é implementar uma automação de CI/CD usando Github Actions para um  programa que permita realizar as seguintes buscas: 
-1. Listar os **órgãos, códigos e editais dos concursos públicos** que se encaixam no perfil do candidato, tomando como base o seu **CPF**; 
-2. Listar o **nome, data de nascimento e o CPF** dos candidatos que se encaixam no perfil do concurso tomando com base o **Código do Concurso** do concurso público;
+## 🚀 Tecnologias Utilizadas
+- **Node.js** com Express.js para criação da API
+- **eslint** para padronização e qualidade do código
+- **PostgreSQL** como banco de dados
+- **Docker** para containerização
+- **GitHub Actions** para CI/CD
+- **SonarQube** para análise de qualidade do código
+- **Jest** para testes automatizados e garantia de qualidade
 
-A automação deve realizar as seguintes automações:
-1. Executar os testes automatizados
-2. Verificar a qualidade do código
-3. Quebrar o CI quando os testes falharem ou quando a qualidade for menor de 80%
-4. Registrar o docker do software no Github Package
+---
 
-O arquivo **candidatos.txt** contém as informações dos candidatos:
+## 📂 Estrutura do Projeto
+```
+/
+├── .github/workflows/
+│   │   │   ├── ci-cd.yml  # Pipeline de CI/CD
+├── database/
+│   ├── init.sql # código de criação das tabelas do Banco de Dados
+├── src/
+│   ├── config/
+│   │   ├── database.js  # Configuração do PostgreSQL
+│   ├── controllers/
+│   │   ├── candidato_BD_Controller.js  # Controlador de candidatos no BD
+│   │   ├── candidatoFileController.js  # Controlador de candidatos via arquivo .txt
+│   │   ├── concurso_BD_Controller.js  # Controlador dos concursos no BD
+│   │   ├── concursoFileController.js  # Controlador dos concursos via arquivo .txt
+│   │   ├── importarDadosController.js  # Controlador da importação de dados
+│   ├── models/
+│   │   ├── candidatoModel.js  # model do candidato
+│   │   ├── concursoModel.js  # model do concurso
+│   ├── routes/
+│   │   ├── candidatoRoutes.js  # rota de acesso aos controllers do candidato
+│   │   ├── concursoRoutes.js  # rota de acesso aos controllers do concurso
+│   │   ├── importarDadosRoutes.js  # rota de acesso aos controllers de importação
+│   ├── services/
+│   │   ├── candidatoBD.js  # Serviço de gestão de candidatos no BD
+│   │   ├── candidatoFile.js  # Serviço de processamento de candidatos via arquivo
+│   │   ├── concursoBD.js  # Serviço de gestão de concursos no BD
+│   │   ├── concursoFile.js  # Serviço de processamento de concursos via arquivo
+│   │   ├── importarDados.js  # Serviço de importação de dados
+│   ├── utils/
+│   │   ├── funcoes.js  # Funções utilitárias
+│   ├── app.js # app do projeto
+│   ├── server.js # server do projeto
+├── tests/
+│   ├── candidatoBD.test.js  # Teste Comportamental
+│   ├── candidatoFile.test.js  # Teste Comportamental
+│   ├── concursoBD.test.js  # Teste Comportamental
+│   ├── concursoFile.test.js  # Teste Comportamental
+│   ├── fileReader.test.js  # Testes unitários
+│   ├── formatarData.test.js  # Teste unitário
+├── candidato.txt # dados .txt dos candidatos
+├── concurso.txt # dados .txt dos concursos
+├── Dockerfile  # Configuração do Docker
+├── eslint.config.mjs  # Configuração do eslint
+├── sonar-project.properties  # Configuração do SonarQube
+├── package-lock.json  # Dependências do projeto
+└── package.json  # Dependências do projeto
+```
 
-| Nome  | Data de Nascimento  | CPF |  Profissões|
-|---|---|---|---|
-| Lindsey Craft  |  19/05/1976  |  182.845.084-34  |  [carpinteiro]  | 
-| Jackie Dawson  |  14/08/1970  |  311.667.973-47  |  [marceneiro, assistente administrativo]  |
-| Cory Mendoza |   11/02/1957 |  565.512.353-92  |  [carpinteiro, marceneiro] |
+---
 
-O arquivo **concursos.txt** contém as informações dos concursos públicos:
+## 🔧 Configuração e Execução
 
-| Órgão  | Edital  | Código do Concurso | Lista de vagas|
-|---|---|---|---|
-| SEDU  | 9/2016  |  61828450843  |  [analista de sistemas, marceneiro]  | 
-| SEJUS | 15/2017  |  61828450843  |  [carpinteiro,professor de matemática,assistente administrativo] |
-| SEJUS | 17/2017 |  95655123539  |  [professor de matemática] |
+### 📌 Configuração do Ambiente
+1. **Clone o repositório:**
+   ```sh
+  git clone https://github.com/Toiste/venhaparaoleds-devops.git
+  cd venhaparaoleds-devops
+   ```
+2. **Instale as dependências:**
+   ```sh
+   npm install
+   ```
+**Passo a passo para criar e configurar o Banco de Dados / Etapa Opcional**
+3. **Crie uma imagem pro banco de dados com Docker:**
+   ```sh
+   docker pull postgres:latest
+   ```
 
-🤩 **As tecnologias a serem utilizadas na implementação da solução ficam a seu critério!**
+**Crie e rode o Container pro banco de dados com Docker:**
+   ```sh
+   docker run --name meu-postgres -e POSTGRES_USER=meu_usuario -e POSTGRES_PASSWORD=minha_senha -e POSTGRES_DB=meu_banco -p 5432:5432 -d postgres
+   ```
+  ### explicação do comando
+  ```sh
+  --name meu-postgres → Nome do container.
+  -e POSTGRES_USER=meu_usuario → Define o usuário do banco.
+  -e POSTGRES_PASSWORD=minha_senha → Define a senha do banco.
+  -e POSTGRES_DB=meu_banco → Nome do banco de dados que será criado automaticamente.
+  -p 5432:5432 → Mapeia a porta local 5432 para a do container.
+  -d postgres → Roda o container em segundo plano com a imagem postgres.
 
-# Como entregar?
-1. Faça um **fork** do repositório. Nesse fork esperamos encontrar uma documentação completa da solução e a listagem dos diferenciais implementados.
-2. Abra um **pull request (PR)** do seu fork para o nome repositório com o seu nome como título. Assim conseguimos te localizar melhor e ver que você já finalizou o desafio!
+  ```
 
-🚨 **Atenção**: você deve enviar apenas o código fonte. Não serão aceitos códigos compilados.
+4. **Configure as variáveis de ambiente:**
+   edite o arquivo `.env example` renomeie para `.env` e defina os valores referentes ao seu banco, exemplo:
+   ```sh
+   DB_USER=postgres
+   DB_HOST=localhost
+   DB_NAME=postgres
+   DB_PASSWORD=senha
+   DB_PORT=5432
+   ```
 
-## Avaliação
+5. **Execute a API:**
+   ```sh
+   npm run server
+   ```
 
-O programa será avaliado levando em conta os seguintes critérios:
+---
 
-| Critério  | Valor | 
-|---|---|
-| Legibilidade do Código |  10  |
-| Documentação do código |  10  |
-| Documentação da solução |  10  |
-| Tratamento de Erros | 10 | 
-| Implementar testes unitários |  15  |
-| Implementar integração com [Github Action](https://github.com/features/actions)  |  10  |
-| Implementar integração com Github Action + SonarQube |  10  |
-| Implementar usando Docker | 5 |
-| Total | 90 |
+## 🔍 Testes e Qualidade de Código
 
-A sua pontuação será a soma dos valores obtidos nos critérios acima.
+### ✅ Executar Testes Automatizados
+```sh
+npm test
+```
 
-## Diferenciais 
-Você pode **aumentar sua pontuação** implementando os seguintes diferenciais:
+### 📊 Análise local de Qualidade com SonarQube
+```sh
+$env:SONAR_TOKEN="seu_token"
+npx sonarqube-scanner
+```
 
-| Item  | Pontos Ganhos | 
-|---|---|
-| Criar um [serviço](https://martinfowler.com/articles/microservices.html) com o problema |  30  |
-| Utilizar banco de dados |  30  |
-| Implementar Clean Code |  20  |
-| Implementar o padrão de programação da tecnologia escolhida |  20  |
-| Implementar testes comportamentais |  15  |
-| Usar tecnologias de IaC (Terraform, ansible, HelmChart, etc)|15|
-| Total| 130 |
+---
 
-A pontuação final será calculada somando os critérios obrigatórios e os diferenciais implementados corretamente.
+## 🛠️ CI/CD
+O projeto possui um pipeline configurado no **GitHub Actions** para:
+1. **Executar testes automatizados**
+2. **Analisar a qualidade do código com SonarQube**
+3. **Quebrar a pipeline se os testes falharem ou a qualidade for menor que 80%**
+4. **Publicar a imagem do Docker no GitHub Packages**
 
-# Penalizações
+---
 
-Você será desclassificado se:
+## 📌 Endpoints da API
 
-1. Enviar uma solução que não funcione.
-2. Não cumprir os critérios da seção **Avaliação**.
-3. For identificado plágio.
-   
-***Que a força esteja com você. Boa sorte!***
+### 📍 **Listar Concursos por CPF**
+#### Endpoint de pesquisa dos Arquivos .txt
+```http
+GET /concursos/:codigo
+```
+#### Resposta:
+```json
+[
+  {
+    "nome": "Darren Shields",
+    "dataNascimento": "15/07/1980",
+    "cpf": "125.478.963-12",
+    "profissoes": [
+      "carpinteiro",
+      "professor de matemática"
+    ]
+  }
+]
+```
 
-<div align="left">
-</div>
+### 📍 **Listar Concursos por CPF**
+#### Endpoint de pesquisa dos Arquivos .txt
+```http
+GET /candidatos/:cpf
+```
+#### Resposta:
+```json
+[
+  {
+    "orgao": "SEDU",
+    "edital": "3/2018",
+    "codigo": "54837291012",
+    "vagas": ["carpinteiro","analista de sistemas","marceneiro"]
+  }
+]
+```
 
-###
+### 📍 **Listar Concursos por CPF**
+#### Endpoint de pesquisa do banco de dados
+```http
+GET /concursos/bd/:codigo
+```
+#### Resposta:
+```json
+[
+  {
+    "nome": "Darren Shields",
+    "dataNascimento": "15/07/1980",
+    "cpf": "125.478.963-12",
+    "profissoes": [
+      "carpinteiro",
+      "professor de matemática"
+    ]
+  }
+]
+```
 
-<br clear="both">
+### 📍 **Listar Concursos por CPF**
+#### Endpoint de pesquisa do banco de dados
+```http
+GET /candidatos/bd/:cpf
+```
+#### Resposta:
+```json
+[
+  {
+    "orgao": "SEDU",
+    "edital": "3/2018",
+    "codigo": "54837291012",
+    "vagas": ["carpinteiro","analista de sistemas","marceneiro"]
+  }
+]
+```
 
-<div align="center">
-  <a href="https://www.linkedin.com/school/ledsifes" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="40" alt="linkedin logo"  />
-  </a>
-  <a href="https://www.instagram.com/ledsifes/" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=Instagram&logo=instagram&label=&color=E4405F&logoColor=white&labelColor=&style=for-the-badge" height="40" alt="instagram logo"  />
-  </a>
-  <a href="https://www.youtube.com/@ledsifes/?sub_confirmation=1" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=Youtube&logo=youtube&label=&color=FF0000&logoColor=white&labelColor=&style=for-the-badge" height="40" alt="youtube logo"  />
-  </a>
-</div>
+---
 
-###
+## 📜 Licença
+Este projeto está sob a Licença MIT.
+
+---
+
+## 📞 Contato
+- **Desenvolvedor:** Marllon Ribeiro
+- **GitHub:** [github.com/Toiste](https://github.com/Toiste)
+- **E-mail:** marllon.ribeiro027@gmail.com
