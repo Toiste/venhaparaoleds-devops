@@ -3,6 +3,27 @@
 ## 📖 Visão Geral
 Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos e candidatos. Permitindo a importação de arquivos, o armazenamento seguro dos dados em um banco PostgreSQL e a disponibilização de endpoints REST para consultas, abrangendo tanto os dados extraídos de arquivos .txt quanto aqueles armazenados no banco de dados.
 
+## 📖 Check List do Desafio.
+### A automação deve Realizar:
+- **Executar os testes automatizados** ✅
+- **Verificar a qualidade do código** ✅
+- **Quebrar o CI quando os testes falharem ou quando a qualidade for menor de 80%** ✅
+- **Registrar o docker do software no Github Package** ✅
+### Avaliação:
+- **Legibilidade do Código** ✅
+- **Documentação do código** ✅
+- **Documentação da solução** ✅
+- **Implementar testes unitários** ✅
+- **Implementar integração com Github Action** ✅
+- **Implementar integração com Github Action + SonarQube** ✅
+- **Implementar usando Docker** ✅
+  ### Diferenciais:
+- **Criar um serviço com o problema** ✅
+- **Utilizar banco de dados** ✅
+- **Implementar Clean Code** ✅
+- **Implementar o padrão de programação da tecnologia escolhida** ✅
+- **Implementar testes comportamentais** ✅
+- **Usar tecnologias de IaC (Terraform, ansible, HelmChart, etc)** ❌ Meu cartão de crédito foi bloqueado 😢
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -72,8 +93,8 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 ### 📌 Configuração do Ambiente
 1. **Clone o repositório:**
    ```sh
-  git clone https://github.com/Toiste/venhaparaoleds-devops.git
-  cd venhaparaoleds-devops
+   git clone https://github.com/Toiste/venhaparaoleds-devops.git
+   cd venhaparaoleds-devops
    ```
 2. **Instale as dependências:**
    ```sh
@@ -119,6 +140,60 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 
 ## 🔍 Testes e Qualidade de Código
 
+📌 candidatoFile.test.js
+
+O que esse teste cobre?
+✅ Garante que um CPF válido retorna os concursos corretos
+✅ Testa um CPF que não tem concursos compatíveis
+✅ Verifica um candidato com múltiplas profissões e se ele retorna todos os concursos adequados
+✅ Mocka o readFileCandidatos para não precisar de um arquivo real
+
+📌 concursoFile.test.js
+
+O que esse teste cobre?
+✅ Verifica se retorna os candidatos corretos para um concurso válido
+✅ Testa um código de concurso inexistente (deve retornar um array vazio)
+✅ Garante que apenas candidatos aptos, de acordo com as profissões exigidas, são retornados
+✅ Mocka readFileConcursos para evitar dependência de arquivos reais
+
+📌 candidatoBD.test.js
+
+O que esse teste cobre?
+✅ Garante que um CPF válido retorna os concursos corretos
+✅ Testa um CPF que não tem concursos compatíveis
+✅ Verifica se todas as vagas de um concurso são retornadas, não apenas as compatíveis com o candidato
+✅ Mocka o pool.query para evitar consultas reais ao banco de dados
+✅ Testa se a função trata corretamente um erro na consulta ao banco
+
+📌 candidatoBD.test.js
+
+O que esse teste cobre?
+
+✅ Verifica se um CPF válido retorna os concursos corretos
+✅ Garante que a consulta ao banco de dados é chamada corretamente com o CPF fornecido
+✅ Testa um CPF que não possui concursos associados e espera uma lista vazia como retorno
+✅ Simula um erro na query do banco de dados e verifica se a exceção é tratada corretamente
+✅ Mocka a função pool.query para evitar chamadas reais ao banco de dados
+
+📌 fileReader.test.js
+
+O que esse teste cobre?
+
+✅ Verifica se o arquivo de candidatos é lido e processado corretamente
+✅ Verifica se o arquivo de concursos é lido e processado corretamente
+✅ Garante que um arquivo vazio retorna um array vazio
+✅ Testa a manipulação de entradas inválidas e garante que o retorno é adequado
+✅ Cria e remove arquivos temporários para garantir um ambiente de teste isolado
+
+📌 formatarData.test.js
+
+O que esse teste cobre?
+
+✅ Garante que a conversão de datas no formato "DD/MM/YYYY" para "YYYY-MM-DD" funciona corretamente
+✅ Verifica diferentes datas para assegurar a consistência da formatação
+✅ Garante que um erro é lançado para formatos de data inválidos
+✅ Testa o comportamento da função ao receber uma string vazia
+
 ### ✅ Executar Testes Automatizados
 ```sh
 npm test
@@ -148,7 +223,7 @@ O projeto possui um pipeline configurado no **GitHub Actions** para:
 ```http
 GET /concursos/:codigo
 ```
-#### Resposta:
+#### Exemplo de Resposta:
 ```json
 [
   {
@@ -168,7 +243,7 @@ GET /concursos/:codigo
 ```http
 GET /candidatos/:cpf
 ```
-#### Resposta:
+#### Exemplo de Resposta:
 ```json
 [
   {
@@ -185,7 +260,7 @@ GET /candidatos/:cpf
 ```http
 GET /concursos/bd/:codigo
 ```
-#### Resposta:
+#### Exemplo de Resposta:
 ```json
 [
   {
@@ -205,7 +280,7 @@ GET /concursos/bd/:codigo
 ```http
 GET /candidatos/bd/:cpf
 ```
-#### Resposta:
+#### Exemplo de Resposta:
 ```json
 [
   {
