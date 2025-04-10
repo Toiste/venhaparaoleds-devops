@@ -1,23 +1,23 @@
-# 📌 Documentação do Projeto
+# Documentação do Projeto
 
 ## 📖 Visão Geral
 Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos e candidatos. Permitindo a importação de arquivos, o armazenamento seguro dos dados em um banco PostgreSQL e a disponibilização de endpoints REST para consultas, abrangendo tanto os dados extraídos de arquivos .txt quanto aqueles armazenados no banco de dados.
 
-## 📑 Índice  
+## Índice  
 
-- [📖 Visão Geral](#-visão-geral)
-- [📖 Check List do Desafio](#-check-list-do-desafio)
-- [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)  
-- [📂 Estrutura do Projeto](#-estrutura-do-projeto)  
-- [🔧 Configuração e Execução](#-configuração-e-execução)  
-- [🔍 Testes e Qualidade de Código](#-testes-e-qualidade-de-código)  
-- [🛠️ CI/CD](#-cicd)  
-- [📌 Endpoints da API](#-endpoints-da-api)  
-- [📜 Licença](#-licença)  
-- [📞 Contato](#-contato)  
+- [ Visão Geral](#-visão-geral)
+- [ Check List do Desafio](#-check-list-do-desafio)
+- [ Tecnologias Utilizadas](#-tecnologias-utilizadas)  
+- [ Estrutura do Projeto](#-estrutura-do-projeto)  
+- [ Configuração e Execução](#-configuração-e-execução)  
+- [ Testes e Qualidade de Código](#-testes-e-qualidade-de-código)  
+- [ CI/CD](#-cicd)  
+- [ Endpoints da API](#-endpoints-da-api)  
+- [ Licença](#-licença)  
+- [ Contato](#-contato)  
 
 
-## 📖 Check List do Desafio.
+## Check List do Desafio.
 ### A automação deve Realizar:
 - **Executar os testes automatizados** ✅
 - **Verificar a qualidade do código** ✅
@@ -37,10 +37,10 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 - **Implementar Clean Code** ✅
 - **Implementar o padrão de programação da tecnologia escolhida** ✅
 - **Implementar testes comportamentais** ✅
-- **Usar tecnologias de IaC (Terraform, ansible, HelmChart, etc)** ❌ Meu cartão de crédito foi bloqueado 😢
+- **Usar tecnologias de IaC (Terraform, ansible, HelmChart, etc)** ❌
 ---
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 - **Node.js** com Express.js para criação da API
 - **eslint** para padronização e qualidade do código
 - **PostgreSQL** como banco de dados
@@ -51,7 +51,7 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 ```
 /
 ├── .github/workflows/
@@ -102,9 +102,9 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 
 ---
 
-## 🔧 Configuração e Execução
+## Configuração e Execução
 
-### 📌 Configuração do Ambiente
+### Configuração do Ambiente
 ### 1. **Clone o repositório:**
    ```sh
    git clone https://github.com/Toiste/venhaparaoleds-devops.git
@@ -141,7 +141,7 @@ Este projeto consiste em uma API desenvolvida para o gerenciamento de concursos 
 
 ---
 
-## 🔍 Testes e Qualidade de Código
+## Testes e Qualidade de Código
 
 📌 candidatoFile.test.js
 
